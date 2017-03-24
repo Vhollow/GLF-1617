@@ -1,5 +1,17 @@
 #!/usr/bin/perl -w
-my %words;
+
+#
+#	Práctica de estadística de textos basada en el conteo de palabras.
+#	Debe de contarse cuantas veces aparece cada palabra en el texto (se considera palabra toda secencia de caracteres españoles)
+#	Los resultados deben imprimirse en pantalla ordenados por el número de apariciones
+#
+#	Referencia ordenación por valores : https://perlmaven.com/how-to-sort-a-hash-in-perl
+#
+
+
+
+
+my %words;	# hash para guardar la cuenta de las palabras
 
 #
 # Rutina main del programa. Se encarga primero de lllamar a una rutina que abre el fichero y luego a la rutina que cuenta las palabras
@@ -19,13 +31,14 @@ sub countWords(){
 	my ($text) = @_;
 	
 	# Divido el texto por todos aquellos caracteres que no se correspondan con los del español
-	foreach my $word (split /[^a-zA-ZñÑáéíóúÁÉÍÓÚ]/,$text){
+	foreach my $word (split /[^a-zA-ZñÑáéíóúÁÉÍÓÚ]+/,$text){
 		$word=lc($word);	#Paso la palabra a minúsculas para que no las vea como distintas
 		$words{$word}++;	#Sumo a la cuenta de la palabra en el hashmap
 	}
+
 	
 	# Imprimo el resultado en el formato pedido
-	foreach my $word (keys %words){
+	foreach my $word (sort { $words{$a} <=> $words{$b} or $a cmp $b } keys %words){	# Organizamos lo datos por su valor
 		print "$words{$word}\t$word\n";
 	}
 }
